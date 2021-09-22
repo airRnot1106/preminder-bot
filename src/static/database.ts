@@ -16,7 +16,4 @@ export default class Database {
     console.log('Successfully connected to the database');
     return client;
   })();
-  static get client() {
-    return this._client;
-  }
 }
