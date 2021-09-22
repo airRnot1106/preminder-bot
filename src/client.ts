@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Discord from 'discord.js';
+import { Meeting } from './index';
 
 const options = {
   intents: Discord.Intents.FLAGS.GUILDS | Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -14,8 +15,23 @@ client.on('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
-  if (!message.content.startsWith('!!') && message.guild) {
+  if (!message.content.startsWith('!') && message.guild) {
     return;
+  }
+  const body = ((content: string) => {
+    const index = content.indexOf(' ');
+    if (index === -1) {
+      return '';
+    }
+    return content.substring(index + 1);
+  })(message.content);
+  switch (message.content.split(' ')[0]) {
+    case '!create':
+    case '!c':
+      const meeting = new Meeting(message, body);
+      await meeting.parseSchedule();
+      await meeting.sendButton();
+      break;
   }
 });
 
