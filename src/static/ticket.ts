@@ -5,12 +5,12 @@ import { MeetingData, MembersData } from '../index';
 
 export default class Ticket {
   static async join(meetingId: string, user: Discord.User, isJoin: boolean) {
-    const result = await Database.select(
+    const resultMeeting = await Database.select(
       ['*'],
       'meetings',
       'WHERE meeting_id = ' + meetingId
     );
-    const meetingData: MeetingData = result[0];
+    const meetingData: MeetingData = resultMeeting[0];
     const textChannel = client.channels.cache.get(
       meetingData.text_channel_id
     )! as Discord.TextBasedChannels;
@@ -43,19 +43,19 @@ export default class Ticket {
     console.log('--------\n');
   }
   static async isReplied(meetingId: string, user: Discord.User) {
-    const resultMembersId = await Database.select(
-      ['members_id'],
+    const resultMeeting: MeetingData[] = await Database.select(
+      ['*'],
       'meetings',
       'WHERE meeting_id = ' + meetingId
     );
-    const membersId = resultMembersId[0].members_id;
-    const resultUsernames: MembersData[] = await Database.select(
-      ['username'],
+    const membersId = resultMeeting[0].members_id;
+    const resultMembers: MembersData[] = await Database.select(
+      ['*'],
       'members',
       'WHERE members_id = ' + membersId
     );
     let isValid = false;
-    for (let resultUsername of resultUsernames) {
+    for (let resultUsername of resultMembers) {
       if (resultUsername.username === user.toString()) {
         isValid = true;
       }
