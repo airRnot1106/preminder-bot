@@ -12,7 +12,7 @@ export default class List {
     );
     const meetingData = resultMeeting[0];
     if (!meetingData) {
-      message.reply('IDが正しくありません！');
+      await message.reply('IDが正しくありません！');
       return;
     }
     const guildId = message.guildId;
