@@ -47,7 +47,7 @@ export default class Database {
   }
   static async update(
     tableName: string,
-    columnNames: string,
+    columnNames: string[],
     values: any[],
     option?: string
   ) {
