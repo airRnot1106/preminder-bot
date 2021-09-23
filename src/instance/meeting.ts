@@ -82,25 +82,32 @@ export default class Meeting {
     console.log('--------');
     console.log('Created a meeting:\n', meetingData);
     console.log('--------\n');
-    const result: { meeting_id: number }[] = await Database.insert(
-      'meetings',
-      [
-        'guild_id',
-        'text_channel_id',
-        'meeting_title',
-        'organizer_name',
-        'schedule',
-      ],
-      [
-        meetingData.guildId,
-        meetingData.textChannelId,
-        meetingData.meetingTitle,
-        meetingData.organizer_name,
-        meetingData.schedule,
-      ],
-      'RETURNING meeting_id'
-    );
+    const result: { meeting_id: number; alert_id: number }[] =
+      await Database.insert(
+        'meetings',
+        [
+          'guild_id',
+          'text_channel_id',
+          'meeting_title',
+          'organizer_name',
+          'schedule',
+        ],
+        [
+          meetingData.guildId,
+          meetingData.textChannelId,
+          meetingData.meetingTitle,
+          meetingData.organizer_name,
+          meetingData.schedule,
+        ],
+        'RETURNING meeting_id, alert_id'
+      );
     this._meetingId = result[0].meeting_id;
+    const alertId = result[0].alert_id;
+    await Database.insert(
+      'alerts',
+      ['alert_id', 'should_alert', 'is_alerted'],
+      [alertId, false, false]
+    );
   }
   async sendButton() {
     if (!this._isParsed) {
