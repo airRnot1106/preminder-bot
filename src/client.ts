@@ -28,7 +28,7 @@ client.on('messageCreate', async (message) => {
   switch (message.content.split(' ')[0]) {
     case '!create':
     case '!c':
-      const meeting = new Meeting(message, body);
+      const meeting = new Meeting(body, message);
       await meeting.parseSchedule();
       await meeting.store();
       await meeting.sendButton();

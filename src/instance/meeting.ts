@@ -19,9 +19,9 @@ export default class Meeting {
   private _schedule: string | null | undefined;
   private _isParsed: boolean;
   private _meetingId: number | undefined;
-  constructor(message: Discord.Message, body: string) {
-    this._message = message;
+  constructor(body: string, message: Discord.Message) {
     this._body = body;
+    this._message = message;
     this._isParsed = false;
   }
   async parseSchedule() {
