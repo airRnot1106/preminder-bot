@@ -16,4 +16,20 @@ export default class Database {
     console.log('Successfully connected to the database');
     return client;
   })();
+  static async insert(
+    tableName: string,
+    columnNmaes: string[],
+    values: string[]
+  ) {
+    const query = `INSERT INTO ${tableName} (${columnNmaes.join(
+      ','
+    )}) VALUES (${values.join(',')})`;
+    console.log('--------');
+    console.log('Query:\n', query);
+    console.log('--------\n');
+    const result = await this._client.query(query);
+  }
+  static normalizeText(str: string) {
+    return "'" + str + "'";
+  }
 }

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Discord from 'discord.js';
-import { Meeting } from './index';
+import { Database, Meeting } from './index';
 
 const options = {
   intents: Discord.Intents.FLAGS.GUILDS | Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -30,6 +30,7 @@ client.on('messageCreate', async (message) => {
     case '!c':
       const meeting = new Meeting(message, body);
       await meeting.parseSchedule();
+      await meeting.store();
       await meeting.sendButton();
       break;
   }

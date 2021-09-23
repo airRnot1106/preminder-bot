@@ -3,6 +3,9 @@ dotenv.config();
 
 import Discord from 'discord.js';
 import fetch from 'node-fetch';
+import dayjs from 'dayjs';
+
+import { Database } from '../index';
 
 type Res = {
   request_id: string;
@@ -23,7 +26,7 @@ export default class Meeting {
   async parseSchedule() {
     const splitArray = this._body.split(' ');
     if (splitArray.length <= 1) {
-      this._schedule = null;
+      this._schedule = dayjs().format('YYYY-MM-DDTHH:mm:ss');
       this._isParsed = true;
       return;
     }
@@ -54,10 +57,34 @@ export default class Meeting {
       .then((json: Res) => {
         const list = json.datetime_list;
         const length = list.length;
-        this._schedule = length ? list[length - 1][1] : null;
+        this._schedule = length
+          ? dayjs(list[length - 1][1]).format('YYYY-MM-DDTHH:mm:ss')
+          : dayjs().format('YYYY-MM-DDTHH:mm:ss');
         this._isParsed = true;
       });
     console.log(this._schedule);
+  }
+  async store() {
+    if (!this._isParsed) {
+      return;
+    }
+    const meetingData = {
+      guildId: this._message.guildId!,
+      textChannelId: this._message.channelId,
+      organizer_name: Database.normalizeText(this._message.author.username),
+      schedule: Database.normalizeText(this._schedule!),
+    };
+    console.log(meetingData);
+    await Database.insert(
+      'meetings',
+      ['guild_id', 'text_channel_id', 'organizer_name', 'schedule'],
+      [
+        meetingData.guildId,
+        meetingData.textChannelId,
+        meetingData.organizer_name,
+        meetingData.schedule,
+      ]
+    );
   }
   async sendButton() {
     if (!this._isParsed) {
@@ -78,5 +105,8 @@ export default class Meeting {
         new Discord.MessageActionRow().addComponents(button02),
       ],
     });
+  }
+  async insert() {
+    const columnNames = [];
   }
 }
