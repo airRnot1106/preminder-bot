@@ -35,7 +35,7 @@ client.on('messageCreate', async (message) => {
       break;
     case '!participant':
     case '!p':
-      await List.showParticipant(body);
+      await List.showParticipant(body, message);
       break;
   }
 });

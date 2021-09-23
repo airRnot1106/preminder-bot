@@ -4,13 +4,22 @@ import { client, Database } from '../index';
 import { MeetingData, MembersData } from '../index';
 
 export default class List {
-  static async showParticipant(meetingId: string) {
+  static async showParticipant(meetingId: string, message: Discord.Message) {
     const resultMeeting: MeetingData[] = await Database.select(
       ['*'],
       'meetings',
       'WHERE meeting_id = ' + meetingId
     );
     const meetingData = resultMeeting[0];
+    if (!meetingData) {
+      message.reply('IDが正しくありません！');
+      return;
+    }
+    const guildId = message.guildId;
+    if (!(meetingData.guild_id === guildId)) {
+      message.reply('IDが正しくありません！');
+      return;
+    }
     const resultMembers: MembersData[] = await Database.select(
       ['*'],
       'members',
