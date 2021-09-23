@@ -1,16 +1,7 @@
 import Discord from 'discord.js';
 
 import { client, Database } from '../index';
-
-type MeetingData = {
-  meeting_id: number;
-  guild_id: string;
-  text_channel_id: string;
-  meeting_title: string;
-  organizer_name: string;
-  schedule: string;
-  members_id: number;
-};
+import { MeetingData, MembersData } from '../index';
 
 export default class Ticket {
   static async join(meetingId: string, user: Discord.User, isJoin: boolean) {
@@ -38,8 +29,8 @@ export default class Ticket {
     }
     await Database.insert(
       'members',
-      ['members_id', 'username'],
-      [meetingData.members_id, Database.normalizeText(user.toString())]
+      ['members_id', 'username', 'is_join'],
+      [meetingData.members_id, Database.normalizeText(user.toString()), isJoin]
     );
     console.log('--------');
     console.log(
@@ -58,7 +49,7 @@ export default class Ticket {
       'WHERE meeting_id = ' + meetingId
     );
     const membersId = resultMembersId[0].members_id;
-    const resultUsernames = await Database.select(
+    const resultUsernames: MembersData[] = await Database.select(
       ['username'],
       'members',
       'WHERE members_id = ' + membersId

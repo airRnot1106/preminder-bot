@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Discord from 'discord.js';
-import { Database, Meeting, Ticket } from './index';
+import { Database, Meeting, Ticket, List } from './index';
 
 const options = {
   intents: Discord.Intents.FLAGS.GUILDS | Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -35,6 +35,7 @@ client.on('messageCreate', async (message) => {
       break;
     case '!participant':
     case '!p':
+      await List.showParticipant(body);
       break;
   }
 });
