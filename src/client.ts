@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Discord from 'discord.js';
-import { Database, Meeting, Ticket, List } from './index';
+import { Database, Meeting, Ticket, List, Timer } from './index';
 
 const options = {
   intents: Discord.Intents.FLAGS.GUILDS | Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -12,6 +12,9 @@ export const client = new Discord.Client(options);
 
 client.on('ready', () => {
   console.log('preminder is ready!');
+  setInterval(async () => {
+    await Timer.checkSchedule();
+  }, 10000);
 });
 
 client.on('messageCreate', async (message) => {
@@ -36,6 +39,14 @@ client.on('messageCreate', async (message) => {
     case '!participant':
     case '!p':
       await List.showParticipant(body, message);
+      break;
+    case '!activetimer':
+    case '!at':
+      await Timer.active(body, message);
+      break;
+    case 'canceltimer':
+    case 'ct':
+      await Timer.inactive(body, message);
       break;
   }
 });
