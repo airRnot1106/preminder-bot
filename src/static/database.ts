@@ -19,15 +19,31 @@ export default class Database {
   static async insert(
     tableName: string,
     columnNmaes: string[],
-    values: string[]
+    values: any[],
+    option?: string
   ) {
     const query = `INSERT INTO ${tableName} (${columnNmaes.join(
       ','
-    )}) VALUES (${values.join(',')})`;
+    )}) VALUES (${values.join(',')})${option ? ' ' + option : ''}`;
     console.log('--------');
     console.log('Query:\n', query);
     console.log('--------\n');
     const result = await this._client.query(query);
+    return result.rows;
+  }
+  static async select(
+    columnNames: string[],
+    tableName: string,
+    option?: string
+  ) {
+    const query = `SELECT ${columnNames.join(',')} FROM ${tableName}${
+      option ? ' ' + option : ''
+    }`;
+    console.log('--------');
+    console.log('Query:\n', query);
+    console.log('--------\n');
+    const result = await this._client.query(query);
+    return result.rows;
   }
   static normalizeText(str: string) {
     return "'" + str + "'";
