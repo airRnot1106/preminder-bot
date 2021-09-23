@@ -45,6 +45,25 @@ export default class Database {
     const result = await this._client.query(query);
     return result.rows;
   }
+  static async update(
+    tableName: string,
+    columnNames: string,
+    values: any[],
+    option?: string
+  ) {
+    let sets = [];
+    for (let i = 0; i < columnNames.length; i++) {
+      sets.push(`${columnNames[i]}=${values[i]}`);
+    }
+    const query = `UPDATE ${tableName} SET ${sets.join(',')}${
+      option ? ' ' + option : ''
+    }`;
+    console.log('--------');
+    console.log('Query:\n', query);
+    console.log('--------\n');
+    const result = await this._client.query(query);
+    return result.rows;
+  }
   static normalizeText(str: string) {
     return "'" + str + "'";
   }
