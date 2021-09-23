@@ -38,7 +38,7 @@ export default class List {
     textChannel.send({
       embeds: [
         {
-          color: 4303284,
+          color: 2067276,
           fields: [{ name: 'Participants', value: str }],
         },
       ],
