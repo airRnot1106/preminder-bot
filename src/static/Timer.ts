@@ -18,6 +18,10 @@ export default class Timer {
     meetingId: string,
     message: Discord.Message
   ) {
+    if (!meetingId) {
+      await message.reply('IDが正しくありません！');
+      return;
+    }
     const resultMeeting: MeetingData[] = await Database.select(
       ['*'],
       'meetings',
