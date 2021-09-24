@@ -5,6 +5,10 @@ import { MeetingData, MembersData } from '../index';
 
 export default class List {
   static async showParticipant(meetingId: string, message: Discord.Message) {
+    if (!meetingId) {
+      await message.reply('IDが正しくありません！');
+      return;
+    }
     const resultMeeting: MeetingData[] = await Database.select(
       ['*'],
       'meetings',
@@ -17,13 +21,13 @@ export default class List {
     }
     const guildId = message.guildId;
     if (!(meetingData.guild_id === guildId)) {
-      message.reply('IDが正しくありません！');
+      await message.reply('IDが正しくありません！');
       return;
     }
     const resultMembers: MembersData[] = await Database.select(
       ['*'],
       'members',
-      'WHERE members_id = ' + meetingData.members_id
+      'WHERE member_id = ' + meetingData.member_id
     );
     let str = `ID: ${meetingData.meeting_id}\n主催者: ${meetingData.organizer_name}\n日程: ${meetingData.schedule}\nタイトル: ${meetingData.meeting_title}\n-参加者-\n`;
     for (let resultMember of resultMembers) {

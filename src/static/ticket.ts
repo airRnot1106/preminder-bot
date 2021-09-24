@@ -29,8 +29,8 @@ export default class Ticket {
     }
     await Database.insert(
       'members',
-      ['members_id', 'username', 'is_join'],
-      [meetingData.members_id, Database.normalizeText(user.toString()), isJoin]
+      ['member_id', 'username', 'is_join'],
+      [meetingData.member_id, Database.normalizeText(user.toString()), isJoin]
     );
     console.log('--------');
     console.log(
@@ -48,11 +48,11 @@ export default class Ticket {
       'meetings',
       'WHERE meeting_id = ' + meetingId
     );
-    const membersId = resultMeeting[0].members_id;
+    const membersId = resultMeeting[0].member_id;
     const resultMembers: MembersData[] = await Database.select(
       ['*'],
       'members',
-      'WHERE members_id = ' + membersId
+      'WHERE member_id = ' + membersId
     );
     let isValid = false;
     for (let resultUsername of resultMembers) {

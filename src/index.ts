@@ -18,12 +18,12 @@ export type MeetingData = {
   meeting_title: string;
   organizer_name: string;
   schedule: string;
-  members_id: number;
+  member_id: number;
   alert_id: number;
 };
 
 export type MembersData = {
-  members_id: number;
+  member_id: number;
   username: string;
   is_join: boolean;
 };
