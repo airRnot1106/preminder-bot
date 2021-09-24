@@ -6,11 +6,11 @@ import Pg from 'pg';
 export default class Database {
   private static _client = (() => {
     const client = new Pg.Client({
-      user: process.env.user,
-      host: process.env.host,
-      database: process.env.database,
-      password: process.env.password,
-      port: parseInt(process.env.port!, 10),
+      user: process.env.USER,
+      host: process.env.HOST,
+      database: process.env.DATABASE,
+      password: process.env.PASSWORD,
+      port: parseInt(process.env.PORT!, 10),
     });
     client.connect();
     console.log('Successfully connected to the database');
