@@ -14,7 +14,7 @@ client.on('ready', () => {
   console.log('preminder is ready!');
   setInterval(async () => {
     await Timer.checkSchedule();
-  }, 10000);
+  }, 30000);
 });
 
 client.on('messageCreate', async (message) => {
@@ -44,8 +44,8 @@ client.on('messageCreate', async (message) => {
     case '!at':
       await Timer.active(body, message);
       break;
-    case 'canceltimer':
-    case 'ct':
+    case '!canceltimer':
+    case '!ct':
       await Timer.inactive(body, message);
       break;
   }
