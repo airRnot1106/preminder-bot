@@ -31,6 +31,12 @@ client.on('messageCreate', async (message) => {
   switch (message.content.split(' ')[0]) {
     case '!create':
     case '!c':
+      if (!body) {
+        await message.reply(
+          'タイトルを設定してください！(!c [タイトル] [日程?])'
+        );
+        return;
+      }
       const meeting = new Meeting(body, message);
       await meeting.parseSchedule();
       await meeting.store();
