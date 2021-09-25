@@ -7,6 +7,10 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const pg_1 = __importDefault(require("pg"));
 class Database {
+    static async connect() {
+        await this._client.connect();
+        console.log('Successfully connected to the database');
+    }
     static async insert(tableName, columnNmaes, values, option) {
         const query = `INSERT INTO ${tableName} (${columnNmaes.join(',')}) VALUES (${values.join(',')})${option ? ' ' + option : ''}`;
         console.log('--------');
@@ -40,15 +44,10 @@ class Database {
     }
 }
 exports.default = Database;
-Database._client = (() => {
-    const client = new pg_1.default.Client({
-        user: process.env.USER,
-        host: process.env.HOST,
-        database: process.env.DATABASE,
-        password: process.env.PASSWORD,
-        port: parseInt(process.env.PORT, 10),
-    });
-    client.connect();
-    console.log('Successfully connected to the database');
-    return client;
-})();
+Database._client = new pg_1.default.Client({
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: parseInt(process.env.PORT, 10),
+});

@@ -16,9 +16,9 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', '*');
     next();
 });
-app.listen(3000, () => {
+app.listen(3000, async () => {
     console.log('Start on port 3000');
-    index_1.Database;
+    await index_1.Database.connect();
 });
 app.get('/', function (req, res) {
     res.send('connected');
