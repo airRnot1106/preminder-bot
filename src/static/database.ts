@@ -13,11 +13,7 @@ export default class Database {
   });
 
   static async connect() {
-    try {
-      await this._client.connect();
-    } catch (error) {
-      console.error(error);
-    }
+    await this._client.connect();
     console.log('Successfully connected to the database');
   }
 
