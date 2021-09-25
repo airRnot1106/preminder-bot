@@ -17,9 +17,9 @@ app.use(
   }
 );
 
-app.listen(3000, () => {
+app.listen(3000, async () => {
   console.log('Start on port 3000');
-  Database;
+  await Database.connect();
 });
 
 app.get('/', function (req, res) {

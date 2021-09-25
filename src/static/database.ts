@@ -4,18 +4,19 @@ dotenv.config();
 import Pg from 'pg';
 
 export default class Database {
-  private static _client = (() => {
-    const client = new Pg.Client({
-      user: process.env.USER,
-      host: process.env.HOST,
-      database: process.env.DATABASE,
-      password: process.env.PASSWORD,
-      port: parseInt(process.env.PORT!, 10),
-    });
-    client.connect();
+  private static _client = new Pg.Client({
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: parseInt(process.env.PORT!, 10),
+  });
+
+  static async connect() {
+    await this._client.connect();
     console.log('Successfully connected to the database');
-    return client;
-  })();
+  }
+
   static async insert(
     tableName: string,
     columnNmaes: string[],
