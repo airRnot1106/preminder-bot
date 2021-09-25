@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const index_1 = require("./index");
 const app = express_1.default();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
 });
 app.listen(3000, async () => {
     console.log('Start on port 3000');
-    //await Database.connect();
+    await index_1.Database.connect();
 });
 app.get('/', function (req, res) {
     res.send('connected');
