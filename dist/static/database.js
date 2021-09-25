@@ -50,4 +50,8 @@ Database._client = new pg_1.default.Client({
     database: process.env.DATABASE,
     password: process.env.PASSWORD,
     port: parseInt(process.env.PORT, 10),
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
