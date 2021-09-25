@@ -8,7 +8,12 @@ dotenv_1.default.config();
 const pg_1 = __importDefault(require("pg"));
 class Database {
     static async connect() {
-        await this._client.connect();
+        try {
+            await this._client.connect();
+        }
+        catch (error) {
+            console.error(error);
+        }
         console.log('Successfully connected to the database');
     }
     static async insert(tableName, columnNmaes, values, option) {
