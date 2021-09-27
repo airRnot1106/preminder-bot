@@ -25,7 +25,9 @@ client.on('messageCreate', async (message) => {
   }
   const [command, ...args] = message.content.slice(prefix.length).split(' ');
   const body = args.join(' ');
-  console.log(command);
+  console.log('--------');
+  console.log(`Command: ${command}\nArgs: ${body}`);
+  console.log('--------\n');
   console.log(body);
   switch (command) {
     case 'create':
