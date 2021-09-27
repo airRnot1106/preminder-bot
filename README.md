@@ -1,3 +1,5 @@
+[日本語](https://github.com/airRnot1106/preminder-bot/blob/main/doc/README-ja.md)
+
 # Preminder
 
 ![budge](https://img.shields.io/badge/Discord-bot-blue) [![GitHub issues](https://img.shields.io/github/issues/airRnot1106/preminder-bot)](https://github.com/airRnot1106/preminder-bot/issues) ![GitHub](https://img.shields.io/github/license/airRnot1106/preminder-bot) ![Discord.js](https://img.shields.io/badge/Discord.js-v13-informational) [![Twitter](https://img.shields.io/twitter/url?label=Twitter&style=social&url=https%3A%2F%2Fgithub.com%2FairRnot1106%2Fpreminder-bot)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FairRnot1106%2Fpreminder-bot)
@@ -8,7 +10,7 @@ Let's take attendance at the meeting! This bot will tally up who will be attendi
 
 #### Commands
 
-Send these in chat while you are in the voice channel.
+Send these in a text channel.
 
 | Name  | Description                             | Options                     |
 | ----- | --------------------------------------- | --------------------------- |
