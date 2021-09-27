@@ -26,6 +26,8 @@ exports.client.on('messageCreate', async (message) => {
     }
     const [command, ...args] = message.content.slice(prefix.length).split(' ');
     const body = args.join(' ');
+    console.log(command);
+    console.log(body);
     switch (command) {
         case 'create':
         case 'c':
