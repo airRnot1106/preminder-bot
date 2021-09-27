@@ -39,7 +39,7 @@ class Command {
         str +=
             '?activetimer [id]\nエイリアス: ?at\nidのミーティングのタイマーをONに設定します。ミーティングの時間になったら通知をします。\n\n';
         str +=
-            '?canceltimer [id]\nエイリアス: ?ct\ndのミーティングのタイマーをOFFに設定します。\n\n';
+            '?canceltimer [id]\nエイリアス: ?ct\nidのミーティングのタイマーをOFFに設定します。\n\n';
         str +=
             '?createactivetimer [タイトル] [日程?]\nエイリアス: ?cat\nミーティングを作成し、タイマーをONに設定します。\n\n';
         await message.reply({
