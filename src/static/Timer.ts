@@ -6,11 +6,17 @@ import { MeetingData, AlertData } from '../index';
 
 export default class Timer {
   static async active(meetingId: string, message: Discord.Message) {
-    await this.toggleTimer(true, meetingId, message);
+    const result = await this.toggleTimer(true, meetingId, message);
+    if (!result) {
+      return;
+    }
     await message.reply(`ID: ${meetingId}のタイマーをONにしました`);
   }
   static async inactive(meetingId: string, message: Discord.Message) {
-    await this.toggleTimer(false, meetingId, message);
+    const result = await this.toggleTimer(false, meetingId, message);
+    if (!result) {
+      return;
+    }
     await message.reply(`ID: ${meetingId}のタイマーをOFFにしました`);
   }
   private static async toggleTimer(
@@ -20,7 +26,7 @@ export default class Timer {
   ) {
     if (!meetingId) {
       await message.reply('IDが正しくありません！');
-      return;
+      return false;
     }
     const resultMeeting: MeetingData[] = await Database.select(
       ['*'],
@@ -30,7 +36,7 @@ export default class Timer {
     const meetingData = resultMeeting[0];
     if (!meetingData) {
       await message.reply('IDが正しくありません！');
-      return;
+      return false;
     }
     await Database.update(
       'alerts',
@@ -38,6 +44,7 @@ export default class Timer {
       [state],
       'WHERE alert_id = ' + meetingData.alert_id
     );
+    return true;
   }
   static async checkSchedule() {
     const resultAlerts: AlertData[] = await Database.select(
