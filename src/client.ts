@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Discord from 'discord.js';
-import { Database, Meeting, Ticket, List, Timer } from './index';
+import { Command, Meeting, Ticket, List, Timer } from './index';
 
 const options = {
   intents: Discord.Intents.FLAGS.GUILDS | Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -12,47 +12,75 @@ export const client = new Discord.Client(options);
 
 client.on('ready', () => {
   console.log('preminder is ready!');
-  setInterval(async () => {
-    await Timer.checkSchedule();
-  }, 30000);
+  Command.registerInterval();
 });
 
 client.on('messageCreate', async (message) => {
-  if (!message.content.startsWith('!') && message.guild) {
+  const prefix = '?';
+  if (!message.content.startsWith(prefix) && message.guild) {
     return;
   }
+  const [command, ...args] = message.content.slice(prefix.length).split(' ');
   const body = ((content: string) => {
     const index = content.indexOf(' ');
     if (index === -1) {
       return '';
     }
     return content.substring(index + 1);
-  })(message.content);
-  switch (message.content.split(' ')[0]) {
-    case '!create':
-    case '!c':
+  })(args.join(' '));
+  switch (command) {
+    case 'create':
+    case 'c':
       if (!body) {
         await message.reply(
           'タイトルを設定してください！(!c [タイトル] [日程?])'
         );
         return;
       }
-      const meeting = new Meeting(body, message);
-      await meeting.parseSchedule();
-      await meeting.store();
-      await meeting.sendButton();
+      if (body.length > 1600) {
+        await message.reply('タイトルは1600文字以下にしてください！');
+        return;
+      }
+      await (async () => {
+        const meeting = new Meeting(body, message);
+        await meeting.parseSchedule();
+        await meeting.store();
+        await meeting.sendButton();
+      })();
       break;
-    case '!participant':
-    case '!p':
+    case 'participant':
+    case 'p':
       await List.showParticipant(body, message);
       break;
-    case '!activetimer':
-    case '!at':
+    case 'activetimer':
+    case 'at':
       await Timer.active(body, message);
       break;
-    case '!canceltimer':
-    case '!ct':
+    case 'canceltimer':
+    case 'ct':
       await Timer.inactive(body, message);
+      break;
+    case 'cat':
+      if (!body) {
+        await message.reply(
+          'タイトルを設定してください！(!cat [タイトル] [日程?])'
+        );
+        return;
+      }
+      if (body.length > 1600) {
+        await message.reply('タイトルは1600文字以下にしてください！');
+        return;
+      }
+      await (async () => {
+        const meeting = new Meeting(body, message);
+        await meeting.parseSchedule();
+        await meeting.store();
+        await meeting.sendButton();
+        await Timer.active(meeting.meetingData!.meetingId!.toString(), message);
+      })();
+      break;
+    case 'help':
+      await Command.showHelp(message);
       break;
   }
 });

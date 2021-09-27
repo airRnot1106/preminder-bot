@@ -3,6 +3,7 @@ export { default as Database } from './static/database';
 export { default as Ticket } from './static/ticket';
 export { default as List } from './static/list';
 export { default as Timer } from './static/Timer';
+export { default as Command } from './static/command';
 
 //instance
 export { default as Meeting } from './instance/meeting';
