@@ -7,25 +7,32 @@ const dayjs_1 = __importDefault(require("dayjs"));
 const index_1 = require("../index");
 class Timer {
     static async active(meetingId, message) {
-        await this.toggleTimer(true, meetingId, message);
+        const result = await this.toggleTimer(true, meetingId, message);
+        if (!result) {
+            return;
+        }
         await message.reply(`ID: ${meetingId}のタイマーをONにしました`);
     }
     static async inactive(meetingId, message) {
-        await this.toggleTimer(false, meetingId, message);
+        const result = await this.toggleTimer(false, meetingId, message);
+        if (!result) {
+            return;
+        }
         await message.reply(`ID: ${meetingId}のタイマーをOFFにしました`);
     }
     static async toggleTimer(state, meetingId, message) {
         if (!meetingId) {
             await message.reply('IDが正しくありません！');
-            return;
+            return false;
         }
         const resultMeeting = await index_1.Database.select(['*'], 'meetings', 'WHERE meeting_id = ' + meetingId);
         const meetingData = resultMeeting[0];
         if (!meetingData) {
             await message.reply('IDが正しくありません！');
-            return;
+            return false;
         }
         await index_1.Database.update('alerts', ['should_alert'], [state], 'WHERE alert_id = ' + meetingData.alert_id);
+        return true;
     }
     static async checkSchedule() {
         const resultAlerts = await index_1.Database.select(['*'], 'alerts', 'WHERE should_alert = ' + true + ' AND is_alerted = ' + false);
