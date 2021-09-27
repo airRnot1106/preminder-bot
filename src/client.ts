@@ -24,13 +24,7 @@ client.on('messageCreate', async (message) => {
     return;
   }
   const [command, ...args] = message.content.slice(prefix.length).split(' ');
-  const body = ((content: string) => {
-    const index = content.indexOf(' ');
-    if (index === -1) {
-      return '';
-    }
-    return content.substring(index + 1);
-  })(args.join(' '));
+  const body = args.join(' ');
   switch (command) {
     case 'create':
     case 'c':
