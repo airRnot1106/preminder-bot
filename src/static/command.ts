@@ -43,15 +43,15 @@ export default class Command {
   }
   static async showHelp(message: Discord.Message) {
     let str =
-      '?create [タイトル] [日程?]\nエイリアス: ?c\nミーティングを作成します。タイトルは必須で、日程はオプションです。日程が指定されていない場合は現在時刻になります。\n例: ?c ボイスチャット 今日の8時';
+      '?create [タイトル] [日程?]\nエイリアス: ?c\nミーティングを作成します。タイトルは必須で、日程はオプションです。日程が指定されていない場合は現在時刻になります。\n例: ?c ボイスチャット 今日の8時\n\n';
     str +=
-      '?participant [id]\nエイリアス: ?p\nidのミーティングの参加者を表示します。';
+      '?participant [id]\nエイリアス: ?p\nidのミーティングの参加者を表示します。\n\n';
     str +=
-      '?activetimer [id]\nエイリアス: ?at\nidのミーティングのタイマーをONに設定します。ミーティングの時間になったら通知をします。';
+      '?activetimer [id]\nエイリアス: ?at\nidのミーティングのタイマーをONに設定します。ミーティングの時間になったら通知をします。\n\n';
     str +=
-      '?canceltimer [id]\nエイリアス: ?ct\ndのミーティングのタイマーをOFFに設定します。';
+      '?canceltimer [id]\nエイリアス: ?ct\ndのミーティングのタイマーをOFFに設定します。\n\n';
     str +=
-      '?createactivetimer [タイトル] [日程?]\nエイリアス: ?cat\nミーティングを作成し、タイマーをONに設定します。';
+      '?createactivetimer [タイトル] [日程?]\nエイリアス: ?cat\nミーティングを作成し、タイマーをONに設定します。\n\n';
     await message.reply({
       embeds: [
         {
