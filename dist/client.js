@@ -15,6 +15,9 @@ exports.client = new discord_js_1.default.Client(options);
 exports.client.on('ready', () => {
     console.log('preminder is ready!');
     index_1.Command.registerInterval();
+    setInterval(() => {
+        index_1.Timer.checkSchedule();
+    }, 3000);
 });
 exports.client.on('messageCreate', async (message) => {
     const prefix = '?';
