@@ -13,16 +13,28 @@ type Res = {
   datetime_list: string[];
 };
 
+type TmpMeetingData = {
+  guildId: string;
+  textChannelId: string;
+  meetingTitle: string;
+  organizer_name: string;
+  schedule: string;
+  meetingId: number | undefined;
+};
+
 export default class Meeting {
   private _message: Discord.Message;
   private _body: string;
   private _schedule: string | null | undefined;
   private _isParsed: boolean;
-  private _meetingId: number | undefined;
+  private _meetingData: TmpMeetingData | undefined;
   constructor(body: string, message: Discord.Message) {
     this._body = body;
     this._message = message;
     this._isParsed = false;
+  }
+  get meetingData() {
+    return this._meetingData;
   }
   async parseSchedule() {
     const splitArray = this._body.split(' ');
@@ -66,18 +78,18 @@ export default class Meeting {
         }
         this._isParsed = true;
       });
-    console.log(this._schedule);
   }
   async store() {
     if (!this._isParsed) {
       return;
     }
-    const meetingData = {
+    const meetingData: TmpMeetingData = {
       guildId: this._message.guildId!,
       textChannelId: this._message.channelId,
       meetingTitle: Database.normalizeText(this._body),
       organizer_name: Database.normalizeText(this._message.author.toString()),
       schedule: Database.normalizeText(this._schedule!),
+      meetingId: undefined,
     };
     console.log('--------');
     console.log('Created a meeting:\n', meetingData);
@@ -101,7 +113,9 @@ export default class Meeting {
         ],
         'RETURNING meeting_id, alert_id'
       );
-    this._meetingId = result[0].meeting_id;
+    meetingData.meetingId = result[0].meeting_id;
+    this._meetingData = meetingData;
+    console.log(this._meetingData);
     const alertId = result[0].alert_id;
     await Database.insert(
       'alerts',
@@ -110,26 +124,25 @@ export default class Meeting {
     );
   }
   async sendButton() {
-    if (!this._isParsed) {
+    if (!this._isParsed || !this._meetingData) {
       return;
     }
     const button01 = new Discord.MessageButton()
-      .setCustomId(`join-${this._meetingId}`)
+      .setCustomId(`join-${this._meetingData!.meetingId}`)
       .setStyle('PRIMARY')
       .setLabel('参加');
     const button02 = new Discord.MessageButton()
-      .setCustomId(`notJoin-${this._meetingId}`)
+      .setCustomId(`notJoin-${this._meetingData!.meetingId}`)
       .setStyle('PRIMARY')
       .setLabel('不参加');
     await this._message.channel.send({
-      content: `ID: ${this._meetingId}\n**${this._schedule}**から\n${this._body}`,
+      content: `ID: ${this._meetingData!.meetingId}\n**${
+        this._schedule
+      }**から\n${this._body}`,
       components: [
         new Discord.MessageActionRow().addComponents(button01),
         new Discord.MessageActionRow().addComponents(button02),
       ],
     });
-  }
-  async insert() {
-    const columnNames = [];
   }
 }
