@@ -17,7 +17,7 @@ exports.client.on('ready', () => {
     index_1.Command.registerInterval();
     setInterval(() => {
         index_1.Timer.checkSchedule();
-    }, 3000);
+    }, 30000);
 });
 exports.client.on('messageCreate', async (message) => {
     const prefix = '?';
@@ -76,6 +76,14 @@ exports.client.on('messageCreate', async (message) => {
                 await meeting.sendButton();
                 await index_1.Timer.active(meeting.meetingData.meetingId.toString(), message);
             })();
+            break;
+        case 'updatetitle':
+        case 'ut':
+            await index_1.Updater.updateTitle(body, message);
+            break;
+        case 'updateschedule':
+        case 'us':
+            await index_1.Updater.updateSchedule(body, message);
             break;
         case 'help':
             await index_1.Command.showHelp(message);

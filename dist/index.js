@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.client = exports.Meeting = exports.Command = exports.Timer = exports.List = exports.Ticket = exports.Database = void 0;
+exports.client = exports.Meeting = exports.Updater = exports.Command = exports.Timer = exports.List = exports.Ticket = exports.Database = void 0;
 //static
 var database_1 = require("./static/database");
 Object.defineProperty(exports, "Database", { enumerable: true, get: function () { return __importDefault(database_1).default; } });
@@ -15,6 +15,8 @@ var Timer_1 = require("./static/Timer");
 Object.defineProperty(exports, "Timer", { enumerable: true, get: function () { return __importDefault(Timer_1).default; } });
 var command_1 = require("./static/command");
 Object.defineProperty(exports, "Command", { enumerable: true, get: function () { return __importDefault(command_1).default; } });
+var updater_1 = require("./static/updater");
+Object.defineProperty(exports, "Updater", { enumerable: true, get: function () { return __importDefault(updater_1).default; } });
 //instance
 var meeting_1 = require("./instance/meeting");
 Object.defineProperty(exports, "Meeting", { enumerable: true, get: function () { return __importDefault(meeting_1).default; } });
