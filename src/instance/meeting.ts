@@ -6,12 +6,7 @@ import fetch from 'node-fetch';
 import dayjs from 'dayjs';
 
 import { Database } from '../index';
-
-type Res = {
-  request_id: string;
-  doc_time: string;
-  datetime_list: string[];
-};
+import { Res } from '../index';
 
 type TmpMeetingData = {
   guildId: string;
