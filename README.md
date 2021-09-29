@@ -19,6 +19,8 @@ Send these in a text channel.
 | ?at   | Activate the timer for the meeting      | [Meeting id]                |
 | ?ct   | Cancel the timer for the meeting        | [Meeting id]                |
 | ?cat  | Create a meeting and activate the timer | [Title] [Schedule?(option)] |
+| ?ut   | Update the meeting title                | [Meeting id] [New title]    |
+| ?us   | Update the meeting schedule             | [Meeting id] [New Schedule] |
 | ?help | Show the helps                          |                             |
 
 ## Usage
