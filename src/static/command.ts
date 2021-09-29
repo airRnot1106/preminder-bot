@@ -8,6 +8,8 @@ export default class Command {
     '?at [id] — idのミーティングのタイマーをONに設定',
     '?ct [id] — idのミーティングのタイマーをOFFに設定',
     '?cat [タイトル] [日程?] — ミーティングを作成し、タイマーをONに設定',
+    '?ut [id] [新しいタイトル] - idのミーティングのタイトルを変更します',
+    '?us [id] [新しい日程] - idのミーティングの日程を変更します',
     '?help - helpを表示',
   ];
   private static _intervalId: NodeJS.Timer | undefined = undefined;
@@ -52,6 +54,10 @@ export default class Command {
       '?canceltimer [id]\nエイリアス: ?ct\nidのミーティングのタイマーをOFFに設定します。\n\n';
     str +=
       '?createactivetimer [タイトル] [日程?]\nエイリアス: ?cat\nミーティングを作成し、タイマーをONに設定します。\n\n';
+    str +=
+      '?updatetitle [id] [新しいタイトル]\nエイリアス: ?ut\nidのミーティングのタイトルを変更します。\n\n';
+    str +=
+      '?updateschedule [id] [新しい日程]\nエイリアス: ?us\nidのミーティングの日程を変更します。\n\n';
     await message.reply({
       embeds: [
         {
