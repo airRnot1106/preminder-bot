@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Discord from 'discord.js';
-import { Command, Meeting, Ticket, List, Timer } from './index';
+import { Command, Meeting, Ticket, List, Timer, Updater } from './index';
 
 const options = {
   intents: Discord.Intents.FLAGS.GUILDS | Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -15,7 +15,7 @@ client.on('ready', () => {
   Command.registerInterval();
   setInterval(() => {
     Timer.checkSchedule();
-  }, 3000);
+  }, 30000);
 });
 
 client.on('messageCreate', async (message) => {
@@ -79,6 +79,14 @@ client.on('messageCreate', async (message) => {
         await meeting.sendButton();
         await Timer.active(meeting.meetingData!.meetingId!.toString(), message);
       })();
+      break;
+    case 'updatetitle':
+    case 'ut':
+      await Updater.updateTitle(body, message);
+      break;
+    case 'updateschedule':
+    case 'us':
+      await Updater.updateSchedule(body, message);
       break;
     case 'help':
       await Command.showHelp(message);
